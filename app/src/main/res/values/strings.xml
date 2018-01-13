@@ -1,3 +1,7 @@
 <resources>
   <string name="app_name">Baking App</string>
+  <string name="error_message">An error has occurred trying to retrieve the list of recipes. Please check your internet
+    connection or try again later.</string>
+  <string name="empty_message">No recipes found!</string>
+  <string name="error_description">Error Image</string>
 </resources>
