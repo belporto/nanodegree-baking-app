@@ -6,11 +6,11 @@ import android.support.annotation.NonNull;
 
 import com.porto.isabel.bakingapp.network.BakingApi;
 
-class RecipesViewModelFactory implements ViewModelProvider.Factory {
+public class RecipesViewModelFactory implements ViewModelProvider.Factory {
 
     private final BakingApi mBakingApi;
 
-    RecipesViewModelFactory(BakingApi bakingApi) {
+    public RecipesViewModelFactory(BakingApi bakingApi) {
         this.mBakingApi = bakingApi;
     }
 

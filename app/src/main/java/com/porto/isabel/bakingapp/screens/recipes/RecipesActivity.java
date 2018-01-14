@@ -11,12 +11,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.porto.isabel.bakingapp.BakingAppApplication;
 import com.porto.isabel.bakingapp.R;
+import com.porto.isabel.bakingapp.di.AppComponent;
 import com.porto.isabel.bakingapp.model.baking.Recipe;
-import com.porto.isabel.bakingapp.network.BakingApi;
 import com.porto.isabel.bakingapp.screens.recipes.adapter.RecipesAdapter;
+import com.porto.isabel.bakingapp.screens.recipes.di.DaggerRecipesComponent;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +41,8 @@ public class RecipesActivity extends AppCompatActivity implements RecipesAdapter
     @BindView(R.id.recipes_toolbar)
     Toolbar mToolbar;
 
-    private RecipesViewModelFactory mRecipesViewModelFactory;
+    @Inject
+    RecipesViewModelFactory mRecipesViewModelFactory;
 
     private RecipesAdapter mRecipesAdapter;
     private RecipesViewModel mRecipesViewModel;
@@ -48,6 +53,12 @@ public class RecipesActivity extends AppCompatActivity implements RecipesAdapter
         setContentView(R.layout.activity_recipes);
         ButterKnife.bind(this);
 
+        AppComponent appComponent = ((BakingAppApplication) getApplication()).getAppComponent();
+        DaggerRecipesComponent.builder()
+                .appComponent(appComponent)
+                .build()
+                .inject(this);
+
         setSupportActionBar(mToolbar);
 
         RecyclerView.LayoutManager layoutManager = getLayoutManager();
@@ -55,9 +66,6 @@ public class RecipesActivity extends AppCompatActivity implements RecipesAdapter
         mRecyclerView.setHasFixedSize(true);
         mRecipesAdapter = new RecipesAdapter(this);
         mRecyclerView.setAdapter(mRecipesAdapter);
-
-        //TODO: dagger
-        mRecipesViewModelFactory = new RecipesViewModelFactory(new BakingApi());
 
         mRecipesViewModel = ViewModelProviders.of(this, mRecipesViewModelFactory).get(RecipesViewModel.class);
         mRecipesViewModel.response().observe(this, this::processResponse);
