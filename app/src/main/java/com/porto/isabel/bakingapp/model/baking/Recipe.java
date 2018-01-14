@@ -11,7 +11,7 @@ public class Recipe implements Parcelable {
     public String name;
     public double servings;
     public String image;
-    public List<Steps> steps;
+    public List<Step> steps;
     public List<Ingredient> ingredients;
 
     protected Recipe(Parcel in) {
@@ -19,7 +19,7 @@ public class Recipe implements Parcelable {
         name = in.readString();
         servings = in.readDouble();
         image = in.readString();
-        steps = in.createTypedArrayList(Steps.CREATOR);
+        steps = in.createTypedArrayList(Step.CREATOR);
         ingredients = in.createTypedArrayList(Ingredient.CREATOR);
     }
 

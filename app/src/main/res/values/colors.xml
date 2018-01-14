@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="image_background">#f1eeef</color>
     <color name="background">#f1eeef</color>
+    <color name="colorDivider">#1d000000</color>
 </resources>
