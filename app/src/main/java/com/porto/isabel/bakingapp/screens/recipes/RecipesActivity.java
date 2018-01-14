@@ -15,6 +15,7 @@ import com.porto.isabel.bakingapp.BakingAppApplication;
 import com.porto.isabel.bakingapp.R;
 import com.porto.isabel.bakingapp.di.AppComponent;
 import com.porto.isabel.bakingapp.model.baking.Recipe;
+import com.porto.isabel.bakingapp.screens.details.DetailsActivity;
 import com.porto.isabel.bakingapp.screens.recipes.adapter.RecipesAdapter;
 import com.porto.isabel.bakingapp.screens.recipes.di.DaggerRecipesComponent;
 
@@ -118,7 +119,7 @@ public class RecipesActivity extends AppCompatActivity implements RecipesAdapter
 
     @Override
     public void onClick(Recipe recipe) {
-        Timber.d("Recipe clicked " + recipe.name);
+        DetailsActivity.startActivity(this, recipe);
     }
 
 }
