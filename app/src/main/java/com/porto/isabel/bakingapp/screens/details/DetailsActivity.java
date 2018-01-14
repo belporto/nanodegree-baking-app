@@ -19,7 +19,7 @@ public class DetailsActivity extends AppCompatActivity {
     @BindView(R.id.details_toolbar)
     Toolbar mToolbar;
 
-    DetailsViewModel mDetailsViewModel;
+    DetailsStepViewModel mDetailsViewModel;
 
     public static void startActivity(Activity activity, Recipe recipe) {
         Intent intent = new Intent(activity, DetailsActivity.class);
@@ -33,7 +33,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         Recipe recipe = getIntent().getParcelableExtra(RECIPE_EXTRA);
 
-        mDetailsViewModel = ViewModelProviders.of(this).get(DetailsViewModel.class);
+        mDetailsViewModel = ViewModelProviders.of(this).get(DetailsStepViewModel.class);
         mDetailsViewModel.setRecipe(recipe);
 
 

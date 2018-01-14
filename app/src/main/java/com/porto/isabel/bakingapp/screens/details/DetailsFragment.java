@@ -15,6 +15,7 @@ import com.porto.isabel.bakingapp.R;
 import com.porto.isabel.bakingapp.model.baking.Recipe;
 import com.porto.isabel.bakingapp.model.baking.Step;
 import com.porto.isabel.bakingapp.screens.details.adapter.DetailsAdapter;
+import com.porto.isabel.bakingapp.screens.step.StepActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +24,7 @@ import timber.log.Timber;
 public class DetailsFragment extends Fragment implements DetailsAdapter.DetailsAdapterOnClickHandler {
 
 
-    DetailsViewModel mDetailsViewModel;
+    DetailsStepViewModel mDetailsViewModel;
     @BindView(R.id.details_recycler_view)
     RecyclerView mRecyclerView;
     private DetailsAdapter mAdapter;
@@ -37,14 +38,14 @@ public class DetailsFragment extends Fragment implements DetailsAdapter.DetailsA
         ButterKnife.bind(this, rootView);
 
 
-        mDetailsViewModel = ViewModelProviders.of(getActivity()).get(DetailsViewModel.class);
+        mDetailsViewModel = ViewModelProviders.of(getActivity()).get(DetailsStepViewModel.class);
         mDetailsViewModel.getRecipe().observe(this, this::showRecipeDetails);
 
 
         mAdapter = new DetailsAdapter(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
-       
+
         return rootView;
     }
 
@@ -54,6 +55,6 @@ public class DetailsFragment extends Fragment implements DetailsAdapter.DetailsA
 
     @Override
     public void onClick(Step step) {
-        Timber.d(step.shortDescription);
+        StepActivity.startActivity(getActivity(), step);
     }
 }
