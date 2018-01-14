@@ -1,5 +1,6 @@
 package com.porto.isabel.bakingapp.screens.details.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,9 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<Step> steps;
     private List<Ingredient> ingredients;
 
-    private static final int TYPE_INGREDIENTS = 0;
-    private static final int TYPE_STEPS = 1;
+    private static final int TYPE_INGREDIENTS_TITLE = 0;
+    private static final int TYPE_INGREDIENTS = 1;
+    private static final int TYPE_STEPS = 2;
 
     private DetailsAdapterOnClickHandler mClickHandler;
 
@@ -34,6 +36,8 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
+            return TYPE_INGREDIENTS_TITLE;
+        } else if ((position - 1) / ingredients.size() < 1) {
             return TYPE_INGREDIENTS;
         }
         return TYPE_STEPS;
@@ -43,10 +47,14 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        if (viewType == TYPE_INGREDIENTS) {
+        if (viewType == TYPE_INGREDIENTS_TITLE) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.ingredients_title, parent, false);
+            return new IngredientTitleViewHolder(view);
+        } else if (viewType == TYPE_INGREDIENTS) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.ingredients_item, parent, false);
-            return new IngredientsViewHolder(view);
+            return new IngredientViewHolder(view);
         } else {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.steps_item, parent, false);
@@ -57,12 +65,21 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder.getItemViewType() == TYPE_INGREDIENTS) {
-            IngredientsViewHolder ingredientsViewHolder = (IngredientsViewHolder) holder;
-            ingredientsViewHolder.bind(ingredients);
-        } else {
+            IngredientViewHolder ingredientViewHolder = (IngredientViewHolder) holder;
+            ingredientViewHolder.bind(ingredients.get(getIngredientsPosition(position)));
+        } else if (holder.getItemViewType() == TYPE_STEPS) {
             StepsViewHolder stepsViewHolder = (StepsViewHolder) holder;
-            stepsViewHolder.bind(steps.get(position - 1));
+            stepsViewHolder.bind(steps.get(getStepPosition(position)));
         }
+    }
+
+    private int getIngredientsPosition(int position) {
+        return position - 1;
+    }
+
+
+    private int getStepPosition(int position) {
+        return position - 1 - ingredients.size();
     }
 
     public void setData(Recipe recipe) {
@@ -73,7 +90,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return steps.size() + 1; //1 ingredients card + steps
+        return 1 + ingredients.size() + steps.size(); // title+ ingredients + steps
     }
 
     class StepsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -88,7 +105,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @Override
         public void onClick(View v) {
-            mClickHandler.onClick(steps.get(getAdapterPosition() - 1));
+            mClickHandler.onClick(steps.get(getStepPosition(getAdapterPosition())));
         }
 
         void bind(Step step) {
@@ -96,16 +113,27 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    class IngredientsViewHolder extends RecyclerView.ViewHolder {
+    class IngredientViewHolder extends RecyclerView.ViewHolder {
 
+        final TextView mIngredient;
 
-        IngredientsViewHolder(View view) {
+        IngredientViewHolder(View view) {
             super(view);
+            mIngredient = view.findViewById(R.id.ingredient);
         }
 
 
-        public void bind(List<Ingredient> ingredients) {
+        void bind(Ingredient ingredient) {
+            Context context = mIngredient.getContext();
+            String ingredientInfo = context.getString(R.string.ingredient, ingredient.ingredient, String.valueOf(ingredient.quantity), ingredient.measure);
+            mIngredient.setText(ingredientInfo);
+        }
+    }
 
+    class IngredientTitleViewHolder extends RecyclerView.ViewHolder {
+
+        IngredientTitleViewHolder(View view) {
+            super(view);
         }
     }
 }
