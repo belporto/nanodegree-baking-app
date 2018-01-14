@@ -53,8 +53,11 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesA
         }
 
         holder.mNameTextView.setText(recipe.name);
-        //TODO: resources with plurals
-        holder.mServingTextView.setText("Servings: " + recipe.servings);
+        Context context = holder.mServingTextView.getContext();
+
+        holder.mServingTextView.setText(context.getResources()
+                .getQuantityString(R.plurals.recipes_servings, (int) recipe.servings, (int) recipe.servings));
+
     }
 
     public void setData(List<Recipe> recipes) {

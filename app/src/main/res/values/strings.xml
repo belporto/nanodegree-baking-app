@@ -4,4 +4,20 @@
     connection or try again later.</string>
     <string name="empty_message">No recipes found!</string>
     <string name="error_description">Error Image</string>
+
+    <plurals name="recipes_servings">
+        <item quantity="one">@string/recipes_serving_one</item>
+        <item quantity="few">@string/recipes_serving_few</item>
+        <item quantity="many">@string/recipes_serving_many</item>
+        <item quantity="two">@string/recipes_serving_two</item>
+        <item quantity="other">@string/recipes_serving_other</item>
+        <item quantity="zero">@string/recipes_serving_zero</item>
+    </plurals>
+
+    <string name="recipes_serving_one">Serving %d portion</string>
+    <string name="recipes_serving_few">Serving %d portions</string>
+    <string name="recipes_serving_many">Serving %d portions</string>
+    <string name="recipes_serving_two">Serving %d portions</string>
+    <string name="recipes_serving_other">Serving %d portions</string>
+    <string name="recipes_serving_zero">Serving %d portions</string>
 </resources>
