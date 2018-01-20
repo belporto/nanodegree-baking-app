@@ -52,6 +52,7 @@ public class DetailsActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, firstFragment).commit();
         } else {
+            mDetailsViewModel.setShowButtons(false);
             mDetailsViewModel.selectStep(0);
         }
     }
@@ -63,7 +64,6 @@ public class DetailsActivity extends AppCompatActivity {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
             transaction.replace(R.id.fragment_container, stepFragment);
-            transaction.addToBackStack(null);
 
             transaction.commit();
         }

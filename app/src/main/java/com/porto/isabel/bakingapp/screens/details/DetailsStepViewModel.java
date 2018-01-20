@@ -17,6 +17,7 @@ public class DetailsStepViewModel extends ViewModel {
     private final MutableLiveData<ButtonState> mButtonStatLiveData = new MutableLiveData<>();
     private List<Step> mSteps = new ArrayList<>();
     private int mPosition;
+    private boolean showButtons = true;
 
     public void setRecipe(Recipe recipe) {
         mRecipeLiveData.setValue(recipe);
@@ -31,11 +32,15 @@ public class DetailsStepViewModel extends ViewModel {
         mPosition = stepPosition;
         mStepLiveData.setValue(mSteps.get(stepPosition));
 
-        boolean showPrevious = mPosition > 0;
-        boolean showNext = mPosition < mSteps.size() - 1;
+        boolean showPrevious = showButtons && mPosition > 0;
+        boolean showNext = showButtons && mPosition < mSteps.size() - 1;
 
         mButtonStatLiveData.setValue(new ButtonState(showPrevious, showNext));
 
+    }
+
+    public void setShowButtons(boolean showButtons) {
+        this.showButtons = showButtons;
     }
 
     public LiveData<Step> getStep() {
