@@ -1,6 +1,7 @@
 package com.porto.isabel.bakingapp.screens.details.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int TYPE_INGREDIENTS_TITLE = 0;
     private static final int TYPE_INGREDIENTS = 1;
     private static final int TYPE_STEPS = 2;
+    private int mSelectedItemPos;
 
     private DetailsAdapterOnClickHandler mClickHandler;
 
@@ -31,6 +33,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public DetailsAdapter(DetailsAdapterOnClickHandler clickHandler) {
         mClickHandler = clickHandler;
+        mSelectedItemPos = 0;
     }
 
     @Override
@@ -69,7 +72,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ingredientViewHolder.bind(ingredients.get(getIngredientsPosition(position)));
         } else if (holder.getItemViewType() == TYPE_STEPS) {
             StepsViewHolder stepsViewHolder = (StepsViewHolder) holder;
-            stepsViewHolder.bind(steps.get(getStepPosition(position)));
+            stepsViewHolder.bind(steps.get(getStepPosition(position)), mSelectedItemPos == getStepPosition(position));
         }
     }
 
@@ -80,6 +83,10 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private int getStepPosition(int position) {
         return position - 1 - ingredients.size();
+    }
+
+    private int getAdapterPositionFromStepPosition(int stepPosition) {
+        return stepPosition + 1 + ingredients.size();
     }
 
     public void setData(Recipe recipe) {
@@ -96,19 +103,38 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class StepsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         final TextView mShortDescriptionTextView;
+        final View mStepItem;
 
         StepsViewHolder(View view) {
             super(view);
             mShortDescriptionTextView = view.findViewById(R.id.step_short_desc);
+            mStepItem = view.findViewById(R.id.step_item);
             view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            Context context = v.getContext();
+            if (context.getResources().getBoolean(R.bool.isTablet)) {
+                int previousItem = mSelectedItemPos;
+                mSelectedItemPos = getStepPosition(getAdapterPosition());
+
+                notifyItemChanged(getAdapterPositionFromStepPosition(previousItem));
+                notifyItemChanged(getAdapterPositionFromStepPosition(mSelectedItemPos));
+            }
+
             mClickHandler.onClick(getStepPosition(getAdapterPosition()));
         }
 
-        void bind(Step step) {
+        void bind(Step step, boolean selected) {
+            Context context = mShortDescriptionTextView.getContext();
+            if (context.getResources().getBoolean(R.bool.isTablet)) {
+                if (selected) {
+                    mStepItem.setBackgroundColor(ContextCompat.getColor(context, R.color.item_selected_background));
+                } else {
+                    mStepItem.setBackgroundColor(ContextCompat.getColor(context, R.color.item_default_background));
+                }
+            }
             mShortDescriptionTextView.setText(step.shortDescription);
         }
     }

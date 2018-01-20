@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:background="?android:attr/selectableItemBackground"
+    android:fitsSystemWindows="true">
 
-    <View
+    <LinearLayout
+        android:id="@+id/step_item"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorDivider" />
-
-    <TextView
-        android:id="@+id/step_short_desc"
-        style="@style/PrimaryText"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        tools:text="Step 1" />
+        android:background="@color/item_default_background"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorDivider" />
+
+        <TextView
+            android:id="@+id/step_short_desc"
+            style="@style/PrimaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            tools:text="Step 1" />
+
+    </LinearLayout>
+
+</FrameLayout>
 

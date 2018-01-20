@@ -8,4 +8,7 @@
     <color name="colorDivider">#1d000000</color>
     <color name="colorTextPrimary">#424242</color>
     <color name="colorTextSecondary">#9e9e9e</color>
+
+    <color name="item_default_background">#ffffff</color>
+    <color name="item_selected_background">#1d000000</color>
 </resources>

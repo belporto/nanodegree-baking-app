@@ -34,17 +34,17 @@ public class DetailsFragment extends Fragment implements DetailsAdapter.DetailsA
 
         ButterKnife.bind(this, rootView);
 
-
         mDetailsViewModel = ViewModelProviders.of(getActivity()).get(DetailsStepViewModel.class);
         mDetailsViewModel.getRecipe().observe(this, this::showRecipeDetails);
-
 
         mAdapter = new DetailsAdapter(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
 
+
         return rootView;
     }
+
 
     private void showRecipeDetails(Recipe recipe) {
         mAdapter.setData(recipe);
