@@ -1,4 +1,4 @@
-package com.porto.isabel.bakingapp.screens.step;
+package com.porto.isabel.bakingapp.screens.details;
 
 
 import android.arch.lifecycle.ViewModelProviders;
@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -24,21 +25,21 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.porto.isabel.bakingapp.R;
 import com.porto.isabel.bakingapp.model.baking.Step;
-import com.porto.isabel.bakingapp.screens.details.DetailsStepViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class StepFragment extends Fragment {
 
-
-    private static final String TAG = StepFragment.class.getSimpleName();
     DetailsStepViewModel mDetailsViewModel;
 
     private SimpleExoPlayer mExoPlayer;
 
     @BindView(R.id.playerView)
     SimpleExoPlayerView mPlayerView;
+    @BindView(R.id.description)
+    TextView descriptionView;
 
     @Nullable
     @Override
@@ -58,9 +59,22 @@ public class StepFragment extends Fragment {
     private void showStepDetails(Step step) {
         if (step.videoURL != null && !step.videoURL.isEmpty()) {
             initializePlayer(Uri.parse(step.videoURL));
+            mPlayerView.setVisibility(View.VISIBLE);
         } else {
-
+            mPlayerView.setVisibility(View.GONE);
         }
+
+        descriptionView.setText(step.description);
+    }
+
+    @OnClick(R.id.button_nextStep)
+    public void nextStep() {
+        mDetailsViewModel.showNextStep();
+    }
+
+    @OnClick(R.id.button_previousStep)
+    public void previousStep() {
+        mDetailsViewModel.showPreviousStep();
     }
 
     private void initializePlayer(Uri mediaUri) {
@@ -70,13 +84,14 @@ public class StepFragment extends Fragment {
             LoadControl loadControl = new DefaultLoadControl();
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
             mPlayerView.setPlayer(mExoPlayer);
-
-            // Prepare the MediaSource.
-            String userAgent = Util.getUserAgent(getContext(), "BakingApp");
-            MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
-                    getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
-            mExoPlayer.prepare(mediaSource);
         }
+
+        // Prepare the MediaSource.
+        String userAgent = Util.getUserAgent(getContext(), "BakingApp");
+        MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
+                getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+        mExoPlayer.prepare(mediaSource);
+
     }
 
     @Override
@@ -89,8 +104,10 @@ public class StepFragment extends Fragment {
      * Release ExoPlayer.
      */
     private void releasePlayer() {
-        mExoPlayer.stop();
-        mExoPlayer.release();
-        mExoPlayer = null;
+        if (mExoPlayer != null) {
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
     }
 }

@@ -23,4 +23,7 @@
 
     <string name="ingredient">%s - %s %s</string>
     <string name="ingredients_title">Ingredients:</string>
+
+    <string name="button_next_step">Next Step</string>
+    <string name="button_previous_step">Previous Step</string>
 </resources>

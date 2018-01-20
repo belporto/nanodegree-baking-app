@@ -2,9 +2,11 @@ package com.porto.isabel.bakingapp.screens.details;
 
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,13 +15,10 @@ import android.view.ViewGroup;
 
 import com.porto.isabel.bakingapp.R;
 import com.porto.isabel.bakingapp.model.baking.Recipe;
-import com.porto.isabel.bakingapp.model.baking.Step;
 import com.porto.isabel.bakingapp.screens.details.adapter.DetailsAdapter;
-import com.porto.isabel.bakingapp.screens.step.StepActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class DetailsFragment extends Fragment implements DetailsAdapter.DetailsAdapterOnClickHandler {
 
@@ -54,7 +53,20 @@ public class DetailsFragment extends Fragment implements DetailsAdapter.DetailsA
     }
 
     @Override
-    public void onClick(Step step) {
-        StepActivity.startActivity(getActivity(), step);
+    public void onClick(int stepPosition) {
+        mDetailsViewModel.selectStep(stepPosition);
+        StepFragment stepFragment = new StepFragment();
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.fragment_container, stepFragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 }

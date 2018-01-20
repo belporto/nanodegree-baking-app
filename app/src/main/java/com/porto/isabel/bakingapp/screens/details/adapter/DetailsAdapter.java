@@ -26,7 +26,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private DetailsAdapterOnClickHandler mClickHandler;
 
     public interface DetailsAdapterOnClickHandler {
-        void onClick(Step step);
+        void onClick(int stepPosition);
     }
 
     public DetailsAdapter(DetailsAdapterOnClickHandler clickHandler) {
@@ -105,7 +105,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @Override
         public void onClick(View v) {
-            mClickHandler.onClick(steps.get(getStepPosition(getAdapterPosition())));
+            mClickHandler.onClick(getStepPosition(getAdapterPosition()));
         }
 
         void bind(Step step) {

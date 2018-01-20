@@ -36,9 +36,22 @@ public class DetailsActivity extends AppCompatActivity {
         mDetailsViewModel = ViewModelProviders.of(this).get(DetailsStepViewModel.class);
         mDetailsViewModel.setRecipe(recipe);
 
-
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
+
+        if (isOneFragmentLayout()) {
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            DetailsFragment firstFragment = new DetailsFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, firstFragment).commit();
+        }
+    }
+
+    private boolean isOneFragmentLayout() {
+        return findViewById(R.id.fragment_container) != null;
     }
 }
