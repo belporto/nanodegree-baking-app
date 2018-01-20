@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -40,6 +41,11 @@ public class StepFragment extends Fragment {
     SimpleExoPlayerView mPlayerView;
     @BindView(R.id.description)
     TextView descriptionView;
+    @BindView(R.id.button_nextStep)
+    Button buttonNext;
+    @BindView(R.id.button_previousStep)
+    Button buttonPrevious;
+
 
     @Nullable
     @Override
@@ -49,11 +55,16 @@ public class StepFragment extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
-
         mDetailsViewModel = ViewModelProviders.of(getActivity()).get(DetailsStepViewModel.class);
         mDetailsViewModel.getStep().observe(this, this::showStepDetails);
+        mDetailsViewModel.getButtonState().observe(this, this::showButtons);
 
         return rootView;
+    }
+
+    private void showButtons(ButtonState buttonState) {
+        buttonPrevious.setVisibility(buttonState.showPrevious ? View.VISIBLE : View.GONE);
+        buttonNext.setVisibility(buttonState.showNext ? View.VISIBLE : View.GONE);
     }
 
     private void showStepDetails(Step step) {
