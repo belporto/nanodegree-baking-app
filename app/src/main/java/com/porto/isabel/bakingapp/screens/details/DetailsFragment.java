@@ -2,11 +2,9 @@ package com.porto.isabel.bakingapp.screens.details;
 
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -55,18 +53,7 @@ public class DetailsFragment extends Fragment implements DetailsAdapter.DetailsA
     @Override
     public void onClick(int stepPosition) {
         mDetailsViewModel.selectStep(stepPosition);
-        StepFragment stepFragment = new StepFragment();
-
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-
-        transaction.replace(R.id.fragment_container, stepFragment);
-        transaction.addToBackStack(null);
-
-        transaction.commit();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
+
 }
