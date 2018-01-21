@@ -21,81 +21,92 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/recipes_swipe_refresh"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
-        <FrameLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recipes_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/recipes_error"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_default"
+            android:visibility="visible">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recipes_recycler_view"
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:visibility="visible" />
+                android:contentDescription="@string/error_description"
+                app:srcCompat="@drawable/ic_error" />
 
-            <LinearLayout
-                android:id="@+id/recipes_error"
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/error_message"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/try_again"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/try_again" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/recipes_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_default"
+            android:visibility="gone">
+
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_default"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/error_description"
-                    app:srcCompat="@drawable/ic_error" />
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/error_description"
+                app:srcCompat="@drawable/ic_empty" />
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:text="@string/error_message"
-                    android:textSize="16sp" />
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/empty_message"
+                android:textSize="16sp" />
 
-            <LinearLayout
-                android:id="@+id/recipes_empty"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_default"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/error_description"
-                    app:srcCompat="@drawable/ic_empty" />
+            <Button
+                android:id="@+id/refresh"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/refresh" />
+        </LinearLayout>
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:text="@string/empty_message"
-                    android:textSize="16sp" />
-            </LinearLayout>
+        <ProgressBar
+            android:id="@+id/recipes_loading"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
 
+    </FrameLayout>
 
-            <ProgressBar
-                android:id="@+id/recipes_loading"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_gravity="center"
-                android:visibility="invisible" />
-
-        </FrameLayout>
-
-    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

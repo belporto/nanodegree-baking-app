@@ -25,6 +25,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 public class RecipesActivity extends AppCompatActivity implements RecipesAdapter.RecipesAdapterOnClickHandler {
@@ -37,8 +38,6 @@ public class RecipesActivity extends AppCompatActivity implements RecipesAdapter
     View mEmptyView;
     @BindView(R.id.recipes_loading)
     ProgressBar mProgressBar;
-    @BindView(R.id.recipes_swipe_refresh)
-    SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recipes_toolbar)
     Toolbar mToolbar;
 
@@ -73,6 +72,16 @@ public class RecipesActivity extends AppCompatActivity implements RecipesAdapter
         mRecipesViewModel.loadRecipes();
     }
 
+    @OnClick(R.id.try_again)
+    public void tryAgain() {
+        mRecipesViewModel.loadRecipes();
+    }
+
+    @OnClick(R.id.refresh)
+    public void refresh() {
+        mRecipesViewModel.loadRecipes();
+    }
+
     private void processResponse(RecipesResponse response) {
         switch (response.status) {
             case LOADING:
@@ -93,13 +102,23 @@ public class RecipesActivity extends AppCompatActivity implements RecipesAdapter
         mRecyclerView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
         mErrorView.setVisibility(View.GONE);
+        mEmptyView.setVisibility(View.GONE);
     }
 
     private void renderDataState(List<Recipe> recipes) {
-        mRecipesAdapter.setData(recipes);
-        mProgressBar.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mErrorView.setVisibility(View.GONE);
+        if(recipes == null || recipes.isEmpty()){
+            mRecipesAdapter.setData(recipes);
+            mProgressBar.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
+            mErrorView.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
+        }else {
+            mRecipesAdapter.setData(recipes);
+            mProgressBar.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mErrorView.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.GONE);
+        }
     }
 
     private void renderErrorState(Throwable throwable) {
@@ -107,6 +126,7 @@ public class RecipesActivity extends AppCompatActivity implements RecipesAdapter
         mProgressBar.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.GONE);
         mErrorView.setVisibility(View.VISIBLE);
+        mEmptyView.setVisibility(View.GONE);
     }
 
     public RecyclerView.LayoutManager getLayoutManager() {
