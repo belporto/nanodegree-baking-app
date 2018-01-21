@@ -26,4 +26,6 @@
 
     <string name="button_next_step">Next Step</string>
     <string name="button_previous_step">Previous Step</string>
+
+    <string name="title_activity_recipes">Recipes</string>
 </resources>
