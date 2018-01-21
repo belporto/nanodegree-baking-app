@@ -99,14 +99,19 @@ public class StepDetailsFragment extends Fragment {
         String userAgent = Util.getUserAgent(getContext(), "BakingApp");
         MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                 getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+        if (mDetailsViewModel.getVideoCurrentPosition() > 0) {
+            mExoPlayer.seekTo(mDetailsViewModel.getVideoCurrentPosition());
+            mExoPlayer.setPlayWhenReady(true);
+        }
         mExoPlayer.prepare(mediaSource);
-
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mDetailsViewModel.saveVideoCurrentPosition(mExoPlayer.getCurrentPosition());
         releasePlayer();
+
     }
 
     /**
