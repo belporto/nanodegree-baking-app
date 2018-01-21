@@ -27,25 +27,16 @@ import com.google.android.exoplayer2.util.Util;
 import com.porto.isabel.bakingapp.R;
 import com.porto.isabel.bakingapp.model.baking.Step;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class StepDetailsFragment extends Fragment {
 
     DetailsViewModel mDetailsViewModel;
 
     private SimpleExoPlayer mExoPlayer;
 
-    @BindView(R.id.playerView)
-    SimpleExoPlayerView mPlayerView;
-    @BindView(R.id.description)
-    TextView descriptionView;
-    @BindView(R.id.button_nextStep)
-    Button buttonNext;
-    @BindView(R.id.button_previousStep)
-    Button buttonPrevious;
-
+    private SimpleExoPlayerView mPlayerView;
+    private TextView mDescriptionView;
+    private Button mButtonNext;
+    private Button mButtonPrevious;
 
     @Nullable
     @Override
@@ -53,18 +44,34 @@ public class StepDetailsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_step_details, container, false);
 
-        ButterKnife.bind(this, rootView);
+        mPlayerView = rootView.findViewById(R.id.playerView);
+        mDescriptionView = rootView.findViewById(R.id.description);
+        mButtonNext = rootView.findViewById(R.id.button_nextStep);
+        mButtonPrevious = rootView.findViewById(R.id.button_previousStep);
 
         mDetailsViewModel = ViewModelProviders.of(getActivity()).get(DetailsViewModel.class);
         mDetailsViewModel.getStep().observe(this, this::showStepDetails);
-        mDetailsViewModel.getButtonState().observe(this, this::showButtons);
+        if (hasButtons()) {
+            mDetailsViewModel.getButtonState().observe(this, this::showButtons);
+            mButtonNext.setOnClickListener(view -> mDetailsViewModel.showNextStep());
+            mButtonPrevious.setOnClickListener(view -> mDetailsViewModel.showPreviousStep());
+        }
 
         return rootView;
     }
 
+    private boolean hasDescription() {
+        return mDescriptionView != null;
+    }
+
+    private boolean hasButtons() {
+        return mButtonPrevious != null && mButtonNext != null;
+    }
+
+
     private void showButtons(ButtonState buttonState) {
-        buttonPrevious.setVisibility(buttonState.showPrevious ? View.VISIBLE : View.GONE);
-        buttonNext.setVisibility(buttonState.showNext ? View.VISIBLE : View.GONE);
+        mButtonPrevious.setVisibility(buttonState.showPrevious ? View.VISIBLE : View.GONE);
+        mButtonNext.setVisibility(buttonState.showNext ? View.VISIBLE : View.GONE);
     }
 
     private void showStepDetails(Step step) {
@@ -74,18 +81,9 @@ public class StepDetailsFragment extends Fragment {
         } else {
             mPlayerView.setVisibility(View.GONE);
         }
-
-        descriptionView.setText(step.description);
-    }
-
-    @OnClick(R.id.button_nextStep)
-    public void nextStep() {
-        mDetailsViewModel.showNextStep();
-    }
-
-    @OnClick(R.id.button_previousStep)
-    public void previousStep() {
-        mDetailsViewModel.showPreviousStep();
+        if (hasDescription()) {
+            mDescriptionView.setText(step.description);
+        }
     }
 
     private void initializePlayer(Uri mediaUri) {

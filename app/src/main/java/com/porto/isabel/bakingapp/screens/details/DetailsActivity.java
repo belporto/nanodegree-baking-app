@@ -51,7 +51,6 @@ public class DetailsActivity extends AppCompatActivity implements RecipeDetailsF
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, firstFragment).commit();
         } else {
-            mDetailsViewModel.setShowButtons(false);
             mDetailsViewModel.selectStep(0);
         }
     }
