@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.porto.isabel.bakingapp.R;
 import com.porto.isabel.bakingapp.model.baking.Recipe;
@@ -40,12 +39,7 @@ public class DetailsActivity extends AppCompatActivity implements RecipeDetailsF
 
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(view -> onBackPressed());
         mToolbar.setTitle(recipe.name);
 
         if (isOneFragmentLayout()) {
