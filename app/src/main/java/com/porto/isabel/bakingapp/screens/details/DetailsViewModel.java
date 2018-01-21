@@ -29,7 +29,14 @@ public class DetailsViewModel extends ViewModel {
     }
 
     public void selectStep(int stepPosition) {
-        mVideoCurrentPosition = 0;
+        selectStep(stepPosition, true);
+    }
+
+    public void selectStep(int stepPosition, boolean resetVideoPosition) {
+        if (resetVideoPosition) {
+            mVideoCurrentPosition = 0;
+        }
+
         mPosition = stepPosition;
         mStepLiveData.setValue(mSteps.get(stepPosition));
 

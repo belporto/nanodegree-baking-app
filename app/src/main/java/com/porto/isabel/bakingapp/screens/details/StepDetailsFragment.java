@@ -37,6 +37,7 @@ public class StepDetailsFragment extends Fragment {
     private TextView mDescriptionView;
     private Button mButtonNext;
     private Button mButtonPrevious;
+    private View mDetailsView;
 
     @Nullable
     @Override
@@ -48,8 +49,10 @@ public class StepDetailsFragment extends Fragment {
         mDescriptionView = rootView.findViewById(R.id.description);
         mButtonNext = rootView.findViewById(R.id.button_nextStep);
         mButtonPrevious = rootView.findViewById(R.id.button_previousStep);
+        mDetailsView = rootView.findViewById(R.id.details_view);
 
         mDetailsViewModel = ViewModelProviders.of(getActivity()).get(DetailsViewModel.class);
+
         mDetailsViewModel.getStep().observe(this, this::showStepDetails);
         if (hasButtons()) {
             mDetailsViewModel.getButtonState().observe(this, this::showButtons);
@@ -60,9 +63,6 @@ public class StepDetailsFragment extends Fragment {
         return rootView;
     }
 
-    private boolean hasDescription() {
-        return mDescriptionView != null;
-    }
 
     private boolean hasButtons() {
         return mButtonPrevious != null && mButtonNext != null;
@@ -75,15 +75,32 @@ public class StepDetailsFragment extends Fragment {
     }
 
     private void showStepDetails(Step step) {
+
+
         if (step.videoURL != null && !step.videoURL.isEmpty()) {
             initializePlayer(Uri.parse(step.videoURL));
             mPlayerView.setVisibility(View.VISIBLE);
+
+            if (showVideoFullScreen()) {
+                changeDetailsViewVisibility(View.GONE);
+            }
+
         } else {
             mPlayerView.setVisibility(View.GONE);
+            changeDetailsViewVisibility(View.VISIBLE);
         }
-        if (hasDescription()) {
-            mDescriptionView.setText(step.description);
+
+        mDescriptionView.setText(step.description);
+    }
+
+    private void changeDetailsViewVisibility(int visibility) {
+        if (mDetailsView != null) {
+            mDetailsView.setVisibility(visibility);
         }
+    }
+
+    private boolean showVideoFullScreen() {
+        return getResources().getBoolean(R.bool.showVideoFullScreen);
     }
 
     private void initializePlayer(Uri mediaUri) {
@@ -109,7 +126,10 @@ public class StepDetailsFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mDetailsViewModel.saveVideoCurrentPosition(mExoPlayer.getCurrentPosition());
+        if (mExoPlayer != null) {
+            mDetailsViewModel.saveVideoCurrentPosition(mExoPlayer.getCurrentPosition());
+
+        }
         releasePlayer();
 
     }
