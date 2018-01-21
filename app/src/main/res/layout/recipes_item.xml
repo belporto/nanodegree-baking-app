@@ -5,12 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="?android:selectableItemBackground"
     app:cardCornerRadius="2dp"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/item_default_background"
         android:fitsSystemWindows="true"
         android:orientation="vertical"
         android:padding="@dimen/padding_default">
@@ -29,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_medium"
-            tools:text="Bolo de Cenoura" />
+            tools:text="Carrot Cake" />
 
         <TextView
             android:id="@+id/recipe_servings"
