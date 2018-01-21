@@ -39,7 +39,7 @@ public class RecipeDetailsFragment extends Fragment implements DetailsAdapter.De
         mDetailsViewModel = ViewModelProviders.of(getActivity()).get(DetailsViewModel.class);
         mDetailsViewModel.getRecipe().observe(this, this::showRecipeDetails);
 
-        mAdapter = new DetailsAdapter(this);
+        mAdapter = new DetailsAdapter(this, mDetailsViewModel.getStepPosition());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
 

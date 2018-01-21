@@ -16,7 +16,7 @@ public class DetailsViewModel extends ViewModel {
     private final MutableLiveData<Step> mStepLiveData = new MutableLiveData<>();
     private final MutableLiveData<ButtonState> mButtonStatLiveData = new MutableLiveData<>();
     private List<Step> mSteps = new ArrayList<>();
-    private int mPosition;
+    private int mPosition = 0;
     private long mVideoCurrentPosition;
 
     public void setRecipe(Recipe recipe) {
@@ -66,5 +66,9 @@ public class DetailsViewModel extends ViewModel {
 
     public long getVideoCurrentPosition() {
         return mVideoCurrentPosition;
+    }
+
+    public int getStepPosition() {
+        return mPosition;
     }
 }

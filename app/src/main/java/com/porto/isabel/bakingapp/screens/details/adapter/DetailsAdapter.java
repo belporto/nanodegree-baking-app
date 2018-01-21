@@ -31,9 +31,9 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void onClick(int stepPosition);
     }
 
-    public DetailsAdapter(DetailsAdapterOnClickHandler clickHandler) {
+    public DetailsAdapter(DetailsAdapterOnClickHandler clickHandler, int selectedItem) {
         mClickHandler = clickHandler;
-        mSelectedItemPos = 0;
+        mSelectedItemPos = selectedItem;
     }
 
     @Override
