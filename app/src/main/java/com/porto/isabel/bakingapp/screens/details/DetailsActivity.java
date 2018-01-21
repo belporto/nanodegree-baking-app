@@ -10,12 +10,11 @@ import android.support.v7.widget.Toolbar;
 
 import com.porto.isabel.bakingapp.R;
 import com.porto.isabel.bakingapp.model.baking.Recipe;
-import com.porto.isabel.bakingapp.model.baking.Step;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity implements RecipeDetailsFragment.OnStepSelectedListener {
 
     private static final String RECIPE_EXTRA = "RECIPE_EXTRA";
     @BindView(R.id.details_toolbar)
@@ -37,7 +36,6 @@ public class DetailsActivity extends AppCompatActivity {
 
         mDetailsViewModel = ViewModelProviders.of(this).get(DetailsViewModel.class);
         mDetailsViewModel.setRecipe(recipe);
-        mDetailsViewModel.getStep().observe(this, this::showStepDetails);
 
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
@@ -57,22 +55,21 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void showStepDetails(Step step) {
+    private boolean isOneFragmentLayout() {
+        return findViewById(R.id.fragment_container) != null;
+    }
+
+    @Override
+    public void onStepSelected(int position) {
         if (isOneFragmentLayout()) {
             StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
             transaction.replace(R.id.fragment_container, stepDetailsFragment);
+            transaction.addToBackStack(null);
 
             transaction.commit();
         }
     }
-
-
-    private boolean isOneFragmentLayout() {
-        return findViewById(R.id.fragment_container) != null;
-    }
-
-
 }

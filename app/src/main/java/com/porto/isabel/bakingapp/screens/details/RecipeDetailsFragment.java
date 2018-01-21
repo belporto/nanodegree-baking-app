@@ -2,6 +2,7 @@ package com.porto.isabel.bakingapp.screens.details;
 
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ public class RecipeDetailsFragment extends Fragment implements DetailsAdapter.De
     @BindView(R.id.details_recycler_view)
     RecyclerView mRecyclerView;
     private DetailsAdapter mAdapter;
+    private OnStepSelectedListener mStepSelectedListener;
 
     @Nullable
     @Override
@@ -53,6 +55,23 @@ public class RecipeDetailsFragment extends Fragment implements DetailsAdapter.De
     @Override
     public void onClick(int stepPosition) {
         mDetailsViewModel.selectStep(stepPosition);
+        mStepSelectedListener.onStepSelected(stepPosition);
+    }
+
+    public interface OnStepSelectedListener {
+        void onStepSelected(int position);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mStepSelectedListener = (OnStepSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnStepSelectedListener");
+        }
     }
 
 
