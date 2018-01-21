@@ -31,13 +31,13 @@
         <!-- "Fragment A" -->
         <fragment
             android:id="@+id/list_frag"
-            class="com.porto.isabel.bakingapp.screens.details.DetailsFragment"
+            class="com.porto.isabel.bakingapp.screens.details.RecipeDetailsFragment"
             android:layout_width="@dimen/titles_size"
             android:layout_height="match_parent" />
         <!-- "Fragment B" -->
         <fragment
             android:id="@+id/details_frag"
-            class="com.porto.isabel.bakingapp.screens.details.StepFragment"
+            class="com.porto.isabel.bakingapp.screens.details.StepDetailsFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

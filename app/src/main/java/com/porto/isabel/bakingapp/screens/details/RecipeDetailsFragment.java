@@ -18,10 +18,10 @@ import com.porto.isabel.bakingapp.screens.details.adapter.DetailsAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailsFragment extends Fragment implements DetailsAdapter.DetailsAdapterOnClickHandler {
+public class RecipeDetailsFragment extends Fragment implements DetailsAdapter.DetailsAdapterOnClickHandler {
 
 
-    DetailsStepViewModel mDetailsViewModel;
+    DetailsViewModel mDetailsViewModel;
     @BindView(R.id.details_recycler_view)
     RecyclerView mRecyclerView;
     private DetailsAdapter mAdapter;
@@ -30,11 +30,11 @@ public class DetailsFragment extends Fragment implements DetailsAdapter.DetailsA
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_details, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_recipe_details, container, false);
 
         ButterKnife.bind(this, rootView);
 
-        mDetailsViewModel = ViewModelProviders.of(getActivity()).get(DetailsStepViewModel.class);
+        mDetailsViewModel = ViewModelProviders.of(getActivity()).get(DetailsViewModel.class);
         mDetailsViewModel.getRecipe().observe(this, this::showRecipeDetails);
 
         mAdapter = new DetailsAdapter(this);

@@ -10,7 +10,7 @@ import com.porto.isabel.bakingapp.model.baking.Step;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailsStepViewModel extends ViewModel {
+public class DetailsViewModel extends ViewModel {
 
     private final MutableLiveData<Recipe> mRecipeLiveData = new MutableLiveData<>();
     private final MutableLiveData<Step> mStepLiveData = new MutableLiveData<>();

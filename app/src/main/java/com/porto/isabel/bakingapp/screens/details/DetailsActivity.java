@@ -21,7 +21,7 @@ public class DetailsActivity extends AppCompatActivity {
     @BindView(R.id.details_toolbar)
     Toolbar mToolbar;
 
-    DetailsStepViewModel mDetailsViewModel;
+    DetailsViewModel mDetailsViewModel;
 
     public static void startActivity(Activity activity, Recipe recipe) {
         Intent intent = new Intent(activity, DetailsActivity.class);
@@ -35,7 +35,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         Recipe recipe = getIntent().getParcelableExtra(RECIPE_EXTRA);
 
-        mDetailsViewModel = ViewModelProviders.of(this).get(DetailsStepViewModel.class);
+        mDetailsViewModel = ViewModelProviders.of(this).get(DetailsViewModel.class);
         mDetailsViewModel.setRecipe(recipe);
         mDetailsViewModel.getStep().observe(this, this::showStepDetails);
 
@@ -48,7 +48,7 @@ public class DetailsActivity extends AppCompatActivity {
                 return;
             }
 
-            DetailsFragment firstFragment = new DetailsFragment();
+            RecipeDetailsFragment firstFragment = new RecipeDetailsFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, firstFragment).commit();
         } else {
@@ -59,11 +59,11 @@ public class DetailsActivity extends AppCompatActivity {
 
     private void showStepDetails(Step step) {
         if (isOneFragmentLayout()) {
-            StepFragment stepFragment = new StepFragment();
+            StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-            transaction.replace(R.id.fragment_container, stepFragment);
+            transaction.replace(R.id.fragment_container, stepDetailsFragment);
 
             transaction.commit();
         }

@@ -31,9 +31,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class StepFragment extends Fragment {
+public class StepDetailsFragment extends Fragment {
 
-    DetailsStepViewModel mDetailsViewModel;
+    DetailsViewModel mDetailsViewModel;
 
     private SimpleExoPlayer mExoPlayer;
 
@@ -51,11 +51,11 @@ public class StepFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_step, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_step_details, container, false);
 
         ButterKnife.bind(this, rootView);
 
-        mDetailsViewModel = ViewModelProviders.of(getActivity()).get(DetailsStepViewModel.class);
+        mDetailsViewModel = ViewModelProviders.of(getActivity()).get(DetailsViewModel.class);
         mDetailsViewModel.getStep().observe(this, this::showStepDetails);
         mDetailsViewModel.getButtonState().observe(this, this::showButtons);
 
