@@ -142,17 +142,21 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class IngredientViewHolder extends RecyclerView.ViewHolder {
 
         final TextView mIngredient;
+        final TextView mMeasure;
 
         IngredientViewHolder(View view) {
             super(view);
             mIngredient = view.findViewById(R.id.ingredient);
+            mMeasure = view.findViewById(R.id.measure);
         }
 
 
         void bind(Ingredient ingredient) {
             Context context = mIngredient.getContext();
-            String ingredientInfo = context.getString(R.string.ingredient, ingredient.ingredient, String.valueOf(ingredient.quantity), ingredient.measure);
-            mIngredient.setText(ingredientInfo);
+            String ingredientInfo = context.getString(R.string.ingredient_measure, String.valueOf(ingredient.quantity), ingredient.measure);
+            String ingredientBullet = context.getString(R.string.ingredient, ingredient.ingredient);
+            mIngredient.setText(ingredientBullet);
+            mMeasure.setText(ingredientInfo);
         }
     }
 

@@ -23,7 +23,8 @@
     <string name="recipes_serving_other">Serving %d portions</string>
     <string name="recipes_serving_zero">Serving %d portions</string>
 
-    <string name="ingredient">%s - %s %s</string>
+    <string name="ingredient">\u2022 %s</string>
+    <string name="ingredient_measure">%s %s</string>
     <string name="ingredients_title">Ingredients:</string>
 
     <string name="button_next_step">Next Step</string>

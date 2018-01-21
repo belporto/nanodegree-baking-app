@@ -6,14 +6,24 @@
     android:layout_height="wrap_content"
     android:background="@color/item_default_background"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    android:paddingHorizontal="@dimen/padding_default"
-    android:paddingVertical="@dimen/padding_small">
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/padding_small"
+    android:paddingEnd="@dimen/padding_default"
+    android:paddingStart="@dimen/padding_default"
+    android:paddingTop="@dimen/padding_small">
 
     <TextView
         android:id="@+id/ingredient"
         style="@style/SecondaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_medium"
         tools:text="Ingredients" />
+
+    <TextView
+        android:id="@+id/measure"
+        style="@style/ColoredText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="300G" />
 </LinearLayout>
